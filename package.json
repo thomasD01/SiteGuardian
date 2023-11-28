@@ -1,5 +1,5 @@
 {
-  "name": "SiteGuardian",
+  "name": "siteguardian",
   "private": true,
   "scripts": {
     "build": "turbo build",
