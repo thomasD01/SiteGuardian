@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { Inter } from 'next/font/google'
 import { ToastContainer } from 'react-toastify';
 import { cookies } from "next/headers";
@@ -29,6 +30,7 @@ export default function (props: IProps) {
           <main className='bg-gray-950 w-screen h-screen'>
             {props.children}
           </main>
+          <Analytics />
         </Provider>
         <ToastContainer
           position="top-right"

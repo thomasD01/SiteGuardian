@@ -11,9 +11,9 @@ export default async function(){
           </NavbarItem>
         </NavbarBrand>
         <NavbarContent justify="center">
-          <Link href="#">Docs</Link>
-          <Link href="#">Pricing</Link>
-          <Link href="#">Company</Link>
+          <Link href="https://docs.siteguardian.io">Docs</Link>
+          <Link href="/pricing">Pricing</Link>
+          <Link href="https://duerenindustries.de">Company</Link>
         </NavbarContent>
         <NavbarContent justify="end">
           <Link href="/login">Sign In</Link>
