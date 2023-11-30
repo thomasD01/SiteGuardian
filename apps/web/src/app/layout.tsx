@@ -24,7 +24,7 @@ type IProps = {
 }
 export default function (props: IProps) {
   return (
-    <html lang="en">
+    <html lang="en" className='dark bg-background overscroll-none'>
       <body className={`font-sans ${inter.variable}`}>
         <Provider cookies={cookies()}>
           <main className='bg-gray-950 w-screen h-screen'>
