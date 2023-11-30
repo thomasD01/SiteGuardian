@@ -18,7 +18,7 @@ export default {
     },
   },
   plugins: [
-    nextui()
+    nextui({})
   ],
   darkMode: "class",
 } satisfies Config;
