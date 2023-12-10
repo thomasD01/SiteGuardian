@@ -1,12 +1,13 @@
 "use client"
 import React from 'react'
-import { Button, Input, Link, Modal, ModalBody, ModalContent } from '@nextui-org/react'
+import { Button, Input, Link } from '@nextui-org/react'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 import Form, { type IFormState } from 'components/form/controlledForm'
 import PasswordInput from 'components/passwordInput'
 import ValidatedPasswordInput from 'components/validatedPasswordInput'
-import { handleSignup, resendVerificationEmail, validateEmail } from './helpers'
+import { useAuth } from 'hooks/useAuth'
 
 const initialState: IFormState = {
   error: null,
@@ -18,10 +19,12 @@ export default function() {
   const [ email, setEmail ]                     = React.useState('');
   const [ password, setPassword ]               = React.useState('');
   const [ confirmPassword, setConfirmPassword ] = React.useState('');
-  const [ isModalOpen, setIsModalOpen ]         = React.useState(false);
+
+  const { register } = useAuth();
+  const { push } = useRouter();
 
   const isEmailInvalid = React.useMemo(() => {
-    return validateEmail(email) ? false : true;
+    return email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/) === null;
   }, [email])
 
   const isPasswordConfirmed = React.useMemo(() => {
@@ -33,14 +36,49 @@ export default function() {
 
   function handleStateChange(state: IFormState) {
     if (state.error) {
-      toast.error(state.error)
+      if(Array.isArray(state.error))
+        state.error.forEach((error) => toast.error(error.message))
+      else
+        toast.error(state.error.message)
       return
     } 
     if(!state.data) 
       return
     
     toast.success('Account created successfully')
-    setIsModalOpen(true);
+    push('/verify-email');
+  }
+  async function handleSignup(state: IFormState, formdata: FormData) {
+    return new Promise<IFormState>(async (resolve) => {
+    
+      const name = formdata.get('name');
+      const email = formdata.get('email');
+      const password = formdata.get('password');
+
+      if (email === null || password === null || name === null){
+        return {
+          error: 'Invalid form data',
+          data: null
+        }
+      }
+      
+      const user = await register({
+        name: name.toString(),
+        email: email.toString(),
+        password: password.toString(),
+        error: (error) => {
+          resolve({
+            error: error,
+            data: null
+          })
+        } 
+      });
+
+      return {
+        error: null,
+        data: user
+      }
+    });
   }
 
   return (
@@ -83,25 +121,6 @@ export default function() {
           color={isPasswordConfirmed ? "danger": "default"}
         />
       </Form>
-      <Modal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        backdrop='blur'
-      >
-        <ModalContent>
-          <ModalBody className='bg-gray-900 text-silver p-8'>
-            <div className='w-full h-full flex flex-col items-center justify-center gap-4'>
-              <p>Account created successfully</p>
-              <a 
-                className='cursor-pointer text-red-500'
-                onClick={() => resendVerificationEmail(email)}  
-              >
-                resend verification link?
-              </a>
-            </div>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
     </div>
   )
 }

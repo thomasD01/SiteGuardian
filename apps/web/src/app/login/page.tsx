@@ -3,10 +3,9 @@ import { Button, Input, Link, Spacer } from '@nextui-org/react';
 
 import Form, { type IFormState } from 'components/form/controlledForm';
 import PasswordInput from 'components/passwordInput';
-import { handleLogin } from './helpers';
 import { toast } from 'react-toastify';
 import { redirect } from 'next/navigation';
-
+import { useSearchParams } from 'next/navigation';
 
 const initialState: IFormState = {
   error: null,
@@ -15,16 +14,34 @@ const initialState: IFormState = {
 
 export default async function () {
 
+  const searchParams = useSearchParams();
+  const redirectTarget = searchParams.get('redirectTo') || '/dashboard';
+
   function handleStateChange(state: IFormState) {
     if (state.error) {
-      toast.error(state.error)
+      if(Array.isArray(state.error))
+        state.error.forEach((error) => toast.error(error.message))
+      else
+        toast.error(state.error.message)
       return
     } 
     if(!state.data) 
       return
     
     toast.success(JSON.parse(state.data).user.email + ' logged in successfully')
-    redirect('/dashboard');
+    redirect(redirectTarget);
+  }
+  function handleLogin(state: IFormState, formdata: FormData) {
+
+    return {
+      error: null,
+      data: JSON.stringify({
+        user: {
+          email: formdata.get('email'),
+          password: formdata.get('password')
+        }
+      })
+    }
   }
 
   return (

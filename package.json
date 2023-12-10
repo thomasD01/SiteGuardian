@@ -7,7 +7,7 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
 
-    "dev:web": "turbo dev --parallel --filter=siteguardian_web --filter=siteguardian_supabase"
+    "dev:web": "turbo dev --parallel --filter=siteguardian_web --filter=siteguardian_api"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

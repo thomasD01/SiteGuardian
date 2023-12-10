@@ -2,9 +2,7 @@
 import React from 'react'
 import { useFormState } from 'react-dom'
 import { Image, Spacer } from '@nextui-org/react'
-import { Turnstile } from '@marsidev/react-turnstile'
 
-import { env } from 'env'
 import SubmitButton from '../submitButton'
 import { type IProps} from './types'
 export { type IFormState } from './types';
@@ -29,12 +27,6 @@ export default function(props: IProps) {
       <div className='flex flex-col items-center justify-center gap-2 px-20'>
         {props.children}
         <input type="hidden" name="captchaToken" value={captchaToken} />
-        <Spacer y={4} />
-        <Turnstile
-          siteKey={env.NEXT_PUBLIC_CAPTCHA_SITE_KEY}
-          onSuccess={setCaptchaToken}
-          className='mb-8'
-        />
       </div>
       <div className='w-full h-fit flex flex-row items-center justify-end'>
         {props.secondaryButton}

@@ -1,6 +1,6 @@
 
 type IErrorState = {
-  error: string;
+  error: Error|Error[];
   data: null;
 }
 type IPendingState = {
@@ -15,7 +15,7 @@ export type IFormState = IErrorState | IPendingState | ISuccessState;
 
 export type IProps = {
   // actions
-  action: (state: IFormState, formdata: FormData) => Promise<IFormState>;
+  action: (state: IFormState, formdata: FormData) => Promise<IFormState>|IFormState;
   //handlers
   onStateChange: (state: IFormState) => void;
   // values

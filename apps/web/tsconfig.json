@@ -26,14 +26,11 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "env": ["./src/env.mjs"],
+      "env":          ["./src/env.mjs"],
       "components/*": ["./src/components/*"],
-      "server/*": ["./src/server/*"],
-      "trpc/*": ["./src/trpc/*"],
-      "utils/*": ["./src/utils/*"],
-      "types/*": ["./src/types/*"],
-
-      "next/*": ["./node_modules/next/*"],
+      "hooks/*":      ["./src/hooks/*"],
+      "utils/*":      ["./src/utils/*"],
+      "types/*":      ["./src/types/*"],
     }
   },
   "include": [
