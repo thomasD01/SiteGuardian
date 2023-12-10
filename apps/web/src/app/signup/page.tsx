@@ -20,7 +20,6 @@ export default function() {
   const [ password, setPassword ]               = React.useState('');
   const [ confirmPassword, setConfirmPassword ] = React.useState('');
 
-  const { register } = useAuth();
   const { push } = useRouter();
 
   const isEmailInvalid = React.useMemo(() => {
@@ -62,21 +61,10 @@ export default function() {
         }
       }
       
-      const user = await register({
-        name: name.toString(),
-        email: email.toString(),
-        password: password.toString(),
-        error: (error) => {
-          resolve({
-            error: error,
-            data: null
-          })
-        } 
-      });
 
       return {
         error: null,
-        data: user
+        data: null
       }
     });
   }
